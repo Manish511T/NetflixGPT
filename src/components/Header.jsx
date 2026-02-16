@@ -13,6 +13,7 @@ const Header = () => {
 
     }).catch((error) => {
       navigate("/error");
+      console.error(error);
     });
   }
   return (
