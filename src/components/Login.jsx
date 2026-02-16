@@ -1,6 +1,15 @@
 import React, { useRef, useState } from "react";
 import Header from "./Header";
 import { checkValidData } from "../utils/validate";
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  updateProfile
+} from "firebase/auth";
+
+import { auth } from "../utils/firebase";
+import { useNavigate } from "react-router-dom";
+
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [error, setError] = useState(null);
@@ -9,10 +18,11 @@ const Login = () => {
   const email = useRef(null);
   const password = useRef(null);
 
+  const navigate = useNavigate();
+
   const toggleSignInForm = () => {
     setIsSignInForm(!isSignInForm);
   }
-
   const handleButtonClick = () => {
     const nameValue = isSignInForm ? null : name.current?.value;
 
@@ -23,9 +33,56 @@ const Login = () => {
     );
 
     setError(message);
+    if (message) return;
 
-    
+    if (isSignInForm) {
+      // 🔐 SIGN IN
+      signInWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+      )
+        .then((userCredential) => {
+          const user = userCredential.user;
+          console.log("Signed In:", user);
+          navigate("/browse")
+        })
+        .catch((error) => {
+          setError(error.code);
+        });
+
+    } else {
+      // 🆕 SIGN UP
+      createUserWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+      )
+        .then((userCredential) => {
+          const user = userCredential.user;
+          updateProfile(user, {
+            displayName: name.current.value,
+            photoURL: "https://avatars.githubusercontent.com/u/157511786?v=4"
+          })
+            .then(() => {
+              return user.reload();
+            })
+            .then(() => {
+              navigate("/browse");
+
+            }).catch((error) => {
+              setError(error.message)
+            });
+
+
+
+        })
+        .catch((error) => {
+          setError(error.code);
+        });
+    }
   };
+
 
 
 
@@ -42,7 +99,7 @@ const Login = () => {
       />
 
       {/* Dark Gradient Overlay */}
-      <div className="absolute inset-0 bg-linear-to-b from-black/80 via-black/60 to-black/90 backdrop-blur-sm"></div>
+      <div className="absolute inset-0 bg-linear-to-b from-black/80 via-black/0 to-black/60 backdrop-blur-sm"></div>
 
       {/* Form Container */}
       <div className="relative z-10 flex items-center justify-center min-h-screen px-4">
