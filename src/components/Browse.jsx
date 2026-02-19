@@ -1,8 +1,10 @@
 import React from 'react'
 import Header from './Header'
 import useNowPlayingMovies from '../hooks/useNowPlayingMovies'
+import MainContainer from './MainContainer';
+import SecondaryContainer from './SecondaryContainer';
 
-// import Hero from './Hero'
+
 
 const Browse = () => {
 
@@ -11,7 +13,18 @@ const Browse = () => {
   return (
     <div>
       <Header />
-      {/* <Hero/> */}
+      <MainContainer/>
+      <SecondaryContainer/>
+      {/* 
+       MainContainer
+        - videoBackground
+        - Video Title
+       SecondaryContainer
+        - MovieList * n
+          - cards * n
+
+      */}
+
     </div>
   )
 }
