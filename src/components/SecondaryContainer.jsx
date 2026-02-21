@@ -6,6 +6,7 @@ import MovieListShimmer from "../shimmer/MovieListShimmer";
 const SecondaryContainer = () => {
   const movies = useSelector((store) => store.movies);
 
+
   if (!movies?.nowPlayingMovies) {
     return (
       <div className="relative z-20 bg-black pt-[100vh] pb-16">
@@ -31,7 +32,7 @@ const SecondaryContainer = () => {
 
         <MovieList
           title="Top Rated"
-          movies={movies.nowPlayingMovies}
+          movies={movies.topRatedMovies}
         />
       </div>
 
