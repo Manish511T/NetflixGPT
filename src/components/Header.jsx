@@ -13,10 +13,10 @@ const Header = () => {
   const user = useSelector(store => store.user)
   const handleSignOut = () => {
     signOut(auth)
-    .then(() => {})
-    .catch((error) => {
-      navigate("/error");
-    });
+      .then(() => { })
+      .catch((error) => {
+        navigate("/error");
+      });
   }
 
   useEffect(() => {
@@ -40,20 +40,35 @@ const Header = () => {
 
     return () => unsubscribe();
   }, [dispatch]);
-  
+
   return (
-    <div className='absolute  flex justify-between items-center px-8 py-2 w-full bg-linear-to-b from-black z-10'>
-      <img className='w-44' src={LOGO} alt='logo' />
-      <div className='flex justify-evenly items-center gap-2'>
+    <div className="fixed top-0 left-0 w-full z-50 
+                flex justify-between items-center 
+                px-4 md:px-8 py-3
+                bg-gradient-to-b from-black via-black/70 to-transparent">
+
+      <img className="w-28 md:w-40" src={LOGO} alt="logo" />
+
+      <div className="flex items-center gap-3">
+
         {user && (
           <img
-            className="w-10 rounded-sm"
+            className="w-8 md:w-10 rounded-md"
             src={user.photoUrl}
             alt="userIcon"
           />
         )}
 
-        <button onClick={handleSignOut} className='text-white font-semibold cursor-pointer hover:text-red-600'>(Sign out)</button>
+        {user && (
+          <button
+            onClick={handleSignOut}
+            className="text-white text-sm md:text-base font-semibold 
+                   hover:text-red-600 transition"
+          >
+            Sign out
+          </button>
+        )}
+
       </div>
     </div>
   )
