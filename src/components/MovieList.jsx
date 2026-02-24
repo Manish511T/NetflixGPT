@@ -3,7 +3,8 @@ import MovieCard from "./MovieCard";
 
 const MovieList = ({ title, movies }) => {
 
-
+  if (!movies) return null;
+  
   return (
     <div className="mb-8 md:mb-12">
 

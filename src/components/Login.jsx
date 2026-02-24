@@ -9,7 +9,7 @@ import {
 import { auth } from "../utils/firebase";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
-import { USER_AVATAR } from "../utils/constant";
+import { BG_URL, USER_AVATAR } from "../utils/constant";
 
 
 const Login = () => {
@@ -103,7 +103,7 @@ const Login = () => {
       {/* Background */}
       <img
         className="absolute inset-0 h-full w-full object-cover scale-110"
-        src="https://netmirror.gg/img/home-bg.jpg"
+        src={BG_URL}
         alt="background"
       />
 

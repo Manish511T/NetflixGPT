@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { addUser, removeUser } from "../utils/userSlice";
 import { LOGO } from "../utils/constant";
+import { toggleGptSearchView } from "../utils/gptSlice";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -18,6 +19,14 @@ const Header = () => {
         navigate("/error");
       });
   }
+
+  const handleGptSearch = ()=>{
+    dispatch(toggleGptSearchView())
+  }
+
+  useEffect(()=>{
+    handleGptSearch();
+  },[])
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -40,38 +49,53 @@ const Header = () => {
 
     return () => unsubscribe();
   }, [dispatch]);
-
   return (
-    <div className="fixed top-0 left-0 w-full z-50 
-                flex justify-between items-center 
-                px-4 md:px-8 py-3
-                bg-gradient-to-b from-black via-black/70 to-transparent">
+    <div className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 md:px-10 py-3 bg-gradient-to-b from-black via-black/80 to-transparent">
 
+      {/* Logo */}
       <img className="w-28 md:w-40" src={LOGO} alt="logo" />
 
-      <div className="flex items-center gap-3">
+      {user && (
+        <div className="flex items-center gap-6">
 
-        {user && (
-          <img
-            className="w-8 md:w-10 rounded-md"
-            src={user.photoUrl}
-            alt="userIcon"
-          />
-        )}
-
-        {user && (
+          {/* GPT Search Button */}
           <button
-            onClick={handleSignOut}
-            className="text-white text-sm md:text-base font-semibold 
-                   hover:text-red-600 transition"
+          onClick={handleGptSearch}
+            className="
+            px-5 py-2.5
+            rounded-xl
+            font-semibold text-white
+            bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600
+            hover:from-purple-500 hover:via-indigo-500 hover:to-blue-500
+            shadow-lg shadow-purple-900/40
+            hover:shadow-purple-500/60
+            transition-all duration-300
+            border border-white/10
+            backdrop-blur-md
+          "
           >
-            Sign out
+            ✨ GPT Search
           </button>
-        )}
 
-      </div>
+          {/* Profile Section */}
+          <div
+            onClick={handleSignOut}
+            className="flex items-center gap-3 cursor-pointer group"
+          >
+            <img
+              className="w-9 md:w-10 rounded-md transition group-hover:opacity-80"
+              src={user.photoUrl}
+              alt="userIcon"
+            />
+            <span className="text-white text-sm md:text-base font-semibold group-hover:text-red-500 transition">
+              Sign out
+            </span>
+          </div>
+
+        </div>
+      )}
     </div>
-  )
+  );
 }
 
 export default Header
