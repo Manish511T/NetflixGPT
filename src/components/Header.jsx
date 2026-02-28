@@ -6,27 +6,30 @@ import { useEffect } from "react";
 import { addUser, removeUser } from "../utils/userSlice";
 import { LOGO } from "../utils/constant";
 import { toggleGptSearchView } from "../utils/gptSlice";
+import { SUPPORTED_LANGUAGES } from "../utils/constant";
+import { changeLanguage } from "../utils/configSlice";
 
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const user = useSelector(store => store.user)
+  const user = useSelector((store) => store.user);
+  const showGptSearch = useSelector((store) => store.gpt.showGptSearch);
   const handleSignOut = () => {
     signOut(auth)
       .then(() => { })
       .catch((error) => {
         navigate("/error");
       });
-  }
+  };
 
-  const handleGptSearch = ()=>{
-    dispatch(toggleGptSearchView())
-  }
+  const handleGptSearch = () => {
+    dispatch(toggleGptSearchView());
+  };
 
-  useEffect(()=>{
+  useEffect(() => {
     handleGptSearch();
-  },[])
+  }, []);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -38,34 +41,55 @@ const Header = () => {
             email,
             displayName,
             photoUrl: photoURL,
-          })
+          }),
         );
-        navigate("/browse")
+        navigate("/browse");
       } else {
         dispatch(removeUser());
-        navigate("/")
+        navigate("/");
       }
     });
 
     return () => unsubscribe();
   }, [dispatch]);
-  return (
-    <div className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 md:px-10 py-3 bg-gradient-to-b from-black via-black/80 to-transparent">
 
+  const handleLanguageChange = (e) => {
+    dispatch(changeLanguage(e.target.value));
+  };
+
+  return (
+    <div className="top-0 left-0 w-full z-50 flex justify-between items-center px-6 md:px-10 py-3 bg-linear-to-b from-black via-black/80 to-transparent">
       {/* Logo */}
       <img className="w-28 md:w-40" src={LOGO} alt="logo" />
 
       {user && (
         <div className="flex items-center gap-6">
+          {/* Language */}
+          {showGptSearch && (
+            <select
+              className=" px-4 py-2 rounded-xl bg-white/10 backdrop-blur-lg text-white border border-white/20 shadow-lg shadow-purple-900/20 hover:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-500/40 transition-all duration-300"
+              onChange={handleLanguageChange}
+            >
+              {SUPPORTED_LANGUAGES.map((lang) => (
+                <option
+                  key={lang.identifier}
+                  value={lang.identifier}
+                  className="bg-gray-900 text-white hover:bg-purple-600 focus:bg-purple-600"
+                >
+                  {lang.name}
+                </option>
+              ))}
+            </select>
+          )}
 
           {/* GPT Search Button */}
           <button
-          onClick={handleGptSearch}
+            onClick={handleGptSearch}
             className="
             px-5 py-2.5
             rounded-xl
             font-semibold text-white
-            bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600
+            bg-linear-to-r from-purple-600 via-indigo-600 to-blue-600
             hover:from-purple-500 hover:via-indigo-500 hover:to-blue-500
             shadow-lg shadow-purple-900/40
             hover:shadow-purple-500/60
@@ -74,7 +98,7 @@ const Header = () => {
             backdrop-blur-md
           "
           >
-            ✨ GPT Search
+            {showGptSearch? "Home Page": "✨ GPT Search"}
           </button>
 
           {/* Profile Section */}
@@ -91,11 +115,10 @@ const Header = () => {
               Sign out
             </span>
           </div>
-
         </div>
       )}
     </div>
   );
-}
+};
 
-export default Header
+export default Header;

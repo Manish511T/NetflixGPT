@@ -1,8 +1,14 @@
 import React from "react";
 import { FiSearch } from "react-icons/fi";
 import { BsStars } from "react-icons/bs";
+import lang from "../utils/languageConstant";
+import { useSelector } from "react-redux";
 
 const GptSearchBar = () => {
+
+  const langKey = useSelector(store=>store.config.lang)
+
+
   return (
     <div className="w-full flex justify-center mt- px-4">
       <form
@@ -26,7 +32,7 @@ const GptSearchBar = () => {
         {/* Input */}
         <input
           type="text"
-          placeholder="What would you like to watch today?"
+          placeholder={lang[langKey].gptSearchPlaceHolder}
           className="
             flex-1
             bg-transparent
@@ -53,7 +59,7 @@ const GptSearchBar = () => {
           "
         >
           <FiSearch className="text-lg" />
-          Search
+          {lang[langKey].search}
         </button>
       </form>
     </div>

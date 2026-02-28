@@ -12,3 +12,16 @@ export const API_OPTIONS = {
 export const IMG_CDN_URL = "https://image.tmdb.org/t/p/w500";
 
 export const BG_URL = "https://netmirror.gg/img/home-bg.jpg"
+
+export const SUPPORTED_LANGUAGES = [
+  {identifier: "en", name: "English"},
+  {identifier: "hindi", name: "Hindi"},
+  {identifier: "spanish", name: "Spanish"}, 
+  {identifier: "french", name: "French"}, 
+  {identifier: "german", name: "German"}, 
+  {identifier: "italian", name: "Italian"}, 
+  {identifier: "portuguese", name: "Portuguese"}, 
+  {identifier: "chinese", name: "Chinese"}, 
+  {identifier: "japanese", name: "Japanese"}, 
+  {identifier: "arabic", name: "Arabic"}
+];
