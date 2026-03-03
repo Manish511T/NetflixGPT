@@ -1,10 +1,10 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { FiSearch } from "react-icons/fi";
 import { BsStars } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import genAI from "../utils/openai";
 import { API_OPTIONS } from "../utils/constant";
-import { addGptMovieResult } from "../utils/gptSlice";
+import { addGptMovieResult, setGptLoading } from "../utils/gptSlice";
 import lang from "../utils/languageConstant";
 
 const GptSearchBar = () => {
@@ -12,7 +12,7 @@ const GptSearchBar = () => {
   const langKey = useSelector((store) => store.config.lang);
 
   const searchText = useRef(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const isLoading = useSelector((store) => store.gpt.isLoading);
 
   /**
    * Fetch movie data from TMDB API
@@ -20,9 +20,9 @@ const GptSearchBar = () => {
   const searchMovieTMDB = async (movie) => {
     const response = await fetch(
       `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(
-        movie.trim()
+        movie.trim(),
       )}&include_adult=false&language=en-US&page=1`,
-      API_OPTIONS
+      API_OPTIONS,
     );
 
     const json = await response.json();
@@ -38,7 +38,7 @@ const GptSearchBar = () => {
     // Prevent empty search or multiple clicks
     if (!userQuery || isLoading) return;
 
-    setIsLoading(true);
+    dispatch(setGptLoading(true));
 
     const prompt = `
 You are an intelligent movie recommendation and identification system.
@@ -61,7 +61,7 @@ User input: "${userQuery}"
     try {
       // Generate movie recommendations using Gemini
       const model = genAI.getGenerativeModel({
-        model: "gemini-1.5-flash-latest",
+        model: "gemini-2.5-flash",
       });
 
       const result = await model.generateContent(prompt);
@@ -76,7 +76,7 @@ User input: "${userQuery}"
 
       // Fetch TMDB details for each movie
       const movieResults = await Promise.all(
-        movies.map((movie) => searchMovieTMDB(movie))
+        movies.map((movie) => searchMovieTMDB(movie)),
       );
 
       // Store results in Redux
@@ -84,19 +84,21 @@ User input: "${userQuery}"
         addGptMovieResult({
           movieNames: movies,
           movieResults,
-        })
+        }),
       );
     } catch (error) {
       console.error("Gemini Error:", error);
-    } finally {
-      setIsLoading(false);
+      dispatch(setGptLoading(false));
     }
   };
 
   return (
     <div className="w-full flex justify-center px-4">
       <form
-        onSubmit={(e) => e.preventDefault()}
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleGptSearchClick();
+        }}
         className="w-full max-w-3xl flex items-center
                    bg-white/10 backdrop-blur-xl
                    border border-white/20
@@ -121,9 +123,8 @@ User input: "${userQuery}"
 
         {/* Search Button */}
         <button
-          type="button"
+          type="submit"
           disabled={isLoading}
-          onClick={handleGptSearchClick}
           className={`flex items-center gap-2 px-6 py-4
                       rounded-r-2xl font-semibold text-white
                       transition-all duration-300
