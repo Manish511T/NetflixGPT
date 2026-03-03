@@ -1,16 +1,82 @@
-# React + Vite
+# 🎬 AI Movie Explorer (Netflix + Gemini AI)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A Netflix-inspired movie streaming interface with **AI-powered search** built using **React, Redux, Firebase, TMDB API, and Google Gemini AI**.
 
-Currently, two official plugins are available:
+🔗 **Live Demo:** https://gptott-cded0.web.app  
+💻 **GitHub Repo:** https://github.com/Manish511T/NetflixGPT.git
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 🚀 What This Project Demonstrates
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- 🔥 Modern OTT-style responsive UI
+- 🤖 Real-world AI integration (Google Gemini 2.5 Flash)
+- 🧠 Smart intent-based movie search logic
+- ⚡ Redux-powered global state management
+- 🎥 Trailer autoplay cinematic hero section
+- 🌫 Custom shimmer loading system
+- 🔐 Firebase Authentication
+- 🛡 Graceful AI quota error handling
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🧠 AI Capabilities
+
+Users can:
+
+- Search by exact movie name  
+- Search by mood (romantic, thriller, emotional, etc.)  
+- Search by language or country  
+- Describe scenes or story if they forgot the title  
+
+The system intelligently:
+- Detects user intent (exact match vs recommendation)
+- Identifies movies from natural language descriptions
+- Returns structured movie results
+- Handles API daily quota limits without breaking UI
+
+---
+
+## 🛠 Tech Stack
+
+### Frontend
+- React
+- Redux Toolkit
+- Tailwind CSS
+- React Router
+
+### Backend / APIs
+- Google Gemini AI
+- TMDB API
+- Firebase Authentication
+- Firebase Hosting
+
+---
+
+## 📱 Responsive Design
+
+Fully optimized for:
+- 📱 Mobile
+- 📲 Tablet
+- 💻 Desktop
+
+Includes:
+- Cinematic video background
+- Adaptive movie grids
+- Smart scaling typography
+- Modern glassmorphism UI
+
+---
+
+## ⚠️ AI Limit Handling
+
+Implements robust error detection for Gemini daily quota limits and displays user-friendly feedback instead of silent failures.
+
+---
+
+## 🏗 Installation
+
+```bash
+git clone https://github.com/Manish511T/NetflixGPT.git
+cd Netflix-GPT
+npm install
