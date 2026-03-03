@@ -2,39 +2,92 @@ import { FaPlay } from "react-icons/fa";
 import { IoInformationCircleOutline } from "react-icons/io5";
 
 const VideoTitle = ({ title, overview }) => {
-    return (
-        <div className="w-full aspect-video absolute top-0 left-0 h-screen text-white">
+  return (
+    <div className="absolute inset-0 text-white z-20">
 
-            {/* Gradient Overlay */}
-            <div className="w-full h-full bg-linear-to-r from-black via-black/70 to-transparent px-16 pt-48">
+      {/* Cinematic Overlay */}
+      <div className="
+        w-full h-full
+        bg-linear-to-r from-black via-black/80 to-transparent
+        flex flex-col justify-center
+        px-5 sm:px-10 md:px-20
+      ">
 
-                {/* Title */}
-                <h1 className="text-5xl font-extrabold drop-shadow-lg">
-                    {title}
-                </h1>
+        <div className="max-w-full sm:max-w-lg md:max-w-2xl animate-fadeIn">
 
-                {/* Overview */}
-                <p className="mt-6 text-lg w-1/3 leading-relaxed text-gray-200 line-clamp-3">
-                    {overview}
-                </p>
+          {/* Title */}
+          <h1 className="
+            text-3xl sm:text-4xl md:text-6xl lg:text-7xl
+            font-extrabold
+            leading-tight
+            drop-shadow-[0_4px_20px_rgba(0,0,0,0.9)]
+          ">
+            {title}
+          </h1>
 
-                {/* Buttons */}
-                <div className="flex gap-4 mt-8">
+          {/* Overview */}
+          <p className="
+            mt-4 sm:mt-6
+            text-sm sm:text-base md:text-lg
+            text-gray-200
+            leading-relaxed
+            line-clamp-3 sm:line-clamp-4
+            drop-shadow-md
+          ">
+            {overview}
+          </p>
 
-                    <button className="flex items-center gap-2 bg-white hover:bg-white/70 text-black px-6 py-3 rounded-md font-semibold hover:bg-opacity-80 transition duration-300">
-                        <FaPlay /> Play
-                    </button>
+          {/* Buttons */}
+          <div className="
+            flex flex-wrap
+            gap-3 sm:gap-4
+            mt-6 sm:mt-8
+          ">
 
-                    <button className="flex items-center gap-2 bg-white/30 hover:bg-white/20  px-6 py-3 rounded-md font-semibold hover:bg-opacity-50 transition duration-300">
-                        <IoInformationCircleOutline size={22} />
-                        More Info
-                    </button>
+            {/* Play Button */}
+            <button className="
+              flex items-center gap-2
+              bg-white text-black
+              px-5 sm:px-7
+              py-2.5 sm:py-3
+              text-sm sm:text-base
+              rounded-md
+              font-semibold
+              backdrop-blur-md
+              hover:scale-105
+              hover:bg-white/90
+              transition-all duration-300
+              shadow-lg
+            ">
+              <FaPlay />
+              Play
+            </button>
 
-                </div>
+            {/* More Info Button */}
+            <button className="
+              flex items-center gap-2
+              bg-white/20
+              backdrop-blur-md
+              px-5 sm:px-7
+              py-2.5 sm:py-3
+              text-sm sm:text-base
+              rounded-md
+              font-semibold
+              hover:scale-105
+              hover:bg-white/30
+              transition-all duration-300
+              shadow-lg
+            ">
+              <IoInformationCircleOutline size={22} />
+              More Info
+            </button>
 
-            </div>
+          </div>
+
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
 export default VideoTitle;

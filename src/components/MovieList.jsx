@@ -12,7 +12,7 @@ const MovieList = ({ title, movies }) => {
         {title}
       </h2>
 
-      <div className="flex overflow-x-auto scrollbar-hide space-x-3 md:space-x-5 px-4 md:px-10 pb-4">
+      <div className="bg-white/5 flex  overflow-x-auto scrollbar-hide space-x-3 md:space-x-5 px-4 md:px-10 pb-4">
         {movies.map((movie) => (
           <MovieCard
             key={movie.id}

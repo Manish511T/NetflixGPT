@@ -115,20 +115,26 @@ User input: "${userQuery}"
   };
 
   return (
-    <div className="w-full flex justify-center px-4">
+    <div className="w-full flex justify-center px-4 sm:px-6 mt-6 sm:mt-10">
       <form
         onSubmit={(e) => {
           e.preventDefault();
           handleGptSearchClick();
         }}
-        className="w-full max-w-3xl flex items-center
-                   bg-white/10 backdrop-blur-xl
-                   border border-white/20
-                   rounded-2xl shadow-lg shadow-purple-900/30
-                   transition-all duration-300"
+        className="
+        w-full 
+        max-w-4xl
+        flex items-center
+        bg-white/10 backdrop-blur-xl
+        border border-white/20
+        rounded-xl sm:rounded-2xl
+        shadow-lg shadow-purple-900/30
+        transition-all duration-300
+        overflow-hidden
+      "
       >
         {/* AI Icon */}
-        <div className="pl-5 text-purple-400 text-xl">
+        <div className="pl-3 sm:pl-5 text-purple-400 text-lg sm:text-xl">
           <BsStars />
         </div>
 
@@ -138,30 +144,46 @@ User input: "${userQuery}"
           type="text"
           disabled={isLoading}
           placeholder={lang[langKey].gptSearchPlaceHolder}
-          className="flex-1 bg-transparent px-4 py-4
-                     text-white placeholder-gray-300
-                     outline-none text-sm md:text-base"
+          className="
+          flex-1
+          bg-transparent
+          px-3 sm:px-4
+          py-3 sm:py-4
+          text-white
+          placeholder-gray-300
+          outline-none
+          text-sm sm:text-base
+        "
         />
 
         {/* Search Button */}
         <button
           type="submit"
           disabled={isLoading}
-          className={`flex items-center gap-2 px-6 py-4
-                      rounded-r-2xl font-semibold text-white
-                      transition-all duration-300
-                      ${
-                        isLoading
-                          ? "bg-gray-500 cursor-not-allowed"
-                          : "bg-linear-to-r from-purple-600 via-indigo-600 to-blue-600 hover:from-purple-500 hover:via-indigo-500 hover:to-blue-500"
-                      }`}
+          className={`
+    flex items-center justify-center
+    gap-2
+    px-4 sm:px-6
+    py-2.5 sm:py-3
+    m-1 sm:m-2
+    rounded-lg sm:rounded-xl
+    text-sm sm:text-base
+    font-semibold
+    text-white
+    transition-all duration-300
+    ${
+      isLoading
+        ? "bg-gray-500 cursor-not-allowed"
+        : "bg-linear-to-r from-purple-600 via-indigo-600 to-blue-600 hover:from-purple-500 hover:via-indigo-500 hover:to-blue-500"
+    }
+  `}
         >
           {isLoading ? (
             <span className="animate-pulse">Searching...</span>
           ) : (
             <>
-              <FiSearch className="text-lg" />
-              {lang[langKey].search}
+              <FiSearch className="text-base sm:text-lg" />
+              <span className="hidden sm:inline">{lang[langKey].search}</span>
             </>
           )}
         </button>

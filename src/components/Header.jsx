@@ -27,9 +27,6 @@ const Header = () => {
     dispatch(toggleGptSearchView());
   };
 
-  useEffect(() => {
-    handleGptSearch();
-  }, []);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -57,68 +54,90 @@ const Header = () => {
     dispatch(changeLanguage(e.target.value));
   };
 
-  return (
-    <div className=" fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 md:px-10 py-3 bg-linear-to-b from-black via-black/80 to-transparent">
-      {/* Logo */}
-      <img className="w-28 md:w-40" src={LOGO} alt="logo" />
+return (
+  <div className="fixed top-0 left-0 w-full z-50
+                  flex justify-between items-center
+                  px-4 sm:px-6 md:px-10
+                  py-3
+                  bg-linear-to-b from-black via-black/80 to-transparent">
 
-      {user && (
-        <div className="flex items-center gap-6">
-          {/* Language */}
-          {showGptSearch && (
-            <select
-              className=" px-4 py-2 rounded-xl bg-white/10 backdrop-blur-lg text-white border border-white/20 shadow-lg shadow-purple-900/20 hover:border-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-500/40 transition-all duration-300"
-              onChange={handleLanguageChange}
-            >
-              {SUPPORTED_LANGUAGES.map((lang) => (
-                <option
-                  key={lang.identifier}
-                  value={lang.identifier}
-                  className="bg-gray-900 text-white hover:bg-purple-600 focus:bg-purple-600"
-                >
-                  {lang.name}
-                </option>
-              ))}
-            </select>
-          )}
+    {/* Logo */}
+    <img
+      className="w-24 sm:w-28 md:w-40"
+      src={LOGO}
+      alt="logo"
+    />
 
-          {/* GPT Search Button */}
-          <button
-            onClick={handleGptSearch}
-            className="
-            px-5 py-2.5
-            rounded-xl
+    {user && (
+      <div className="flex items-center gap-2 sm:gap-4 md:gap-6">
+
+        {/* Language Selector */}
+        {showGptSearch && (
+          <select
+            className="px-2 sm:px-3 py-1.5 sm:py-2
+                       text-xs sm:text-sm
+                       rounded-lg sm:rounded-xl
+                       bg-white/10 backdrop-blur-lg
+                       text-white border border-white/20
+                       focus:outline-none focus:ring-2
+                       focus:ring-purple-500/40 transition-all"
+            onChange={handleLanguageChange}
+          >
+            {SUPPORTED_LANGUAGES.map((lang) => (
+              <option
+                key={lang.identifier}
+                value={lang.identifier}
+                className="bg-gray-900 text-white"
+              >
+                {lang.name}
+              </option>
+            ))}
+          </select>
+        )}
+
+        {/* GPT Button */}
+        <button
+          onClick={handleGptSearch}
+          className="
+            px-3 sm:px-4 md:px-5
+            py-1.5 sm:py-2
+            text-xs sm:text-sm md:text-base
+            rounded-lg sm:rounded-xl
             font-semibold text-white
             bg-linear-to-r from-purple-600 via-indigo-600 to-blue-600
             hover:from-purple-500 hover:via-indigo-500 hover:to-blue-500
-            shadow-lg shadow-purple-900/40
-            hover:shadow-purple-500/60
+            shadow-md sm:shadow-lg
             transition-all duration-300
             border border-white/10
-            backdrop-blur-md
           "
-          >
-            {showGptSearch? "Home Page": "✨ GPT Search"}
-          </button>
+        >
+          {showGptSearch ? "Home" : "✨ GPT"}
+        </button>
 
-          {/* Profile Section */}
-          <div
-            onClick={handleSignOut}
-            className="flex items-center gap-3 cursor-pointer group"
-          >
-            <img
-              className="w-9 md:w-10 rounded-md transition group-hover:opacity-80"
-              src={user.photoUrl}
-              alt="userIcon"
-            />
-            <span className="text-white text-sm md:text-base font-semibold group-hover:text-red-500 transition">
-              Sign out
-            </span>
-          </div>
+        {/* Profile Section */}
+        <div
+          onClick={handleSignOut}
+          className="flex items-center gap-2 cursor-pointer group"
+        >
+          <img
+            className="w-8 sm:w-9 md:w-10 rounded-md
+                       transition group-hover:opacity-80"
+            src={user.photoUrl}
+            alt="userIcon"
+          />
+
+          {/* Hide text on very small screens */}
+          <span className="hidden sm:inline
+                           text-white text-sm md:text-base
+                           font-semibold
+                           group-hover:text-red-500 transition">
+            Sign out
+          </span>
         </div>
-      )}
-    </div>
-  );
+      </div>
+    )}
+  </div>
+);
 };
 
 export default Header;

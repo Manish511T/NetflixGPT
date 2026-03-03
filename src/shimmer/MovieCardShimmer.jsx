@@ -2,7 +2,15 @@ import React from "react";
 
 const MovieCardShimmer = () => {
   return (
-    <div className="min-w-55 h-82.5 bg-gray-800 rounded-lg shimmer"></div>
+    <div className="
+      w-full
+      aspect-2/3
+      bg-gray-800
+      rounded-xl
+      overflow-hidden
+      shimmer
+    ">
+    </div>
   );
 };
 

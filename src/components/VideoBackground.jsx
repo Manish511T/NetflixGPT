@@ -10,29 +10,35 @@ const VideoBackground = ({ movieId }) => {
   if (!trailerVideo?.key) return null;
 
   return (
-    <div className="absolute top-0 left-0 w-full h-screen -z-10 overflow-hidden">
-      
-      {/* Responsive Video Wrapper */}
-      <div className="relative w-full h-full">
+    <div className="absolute inset-0 -z-10 overflow-hidden">
 
+      {/* Responsive Aspect Container */}
+      <div className="relative w-full h-[60vh] sm:h-[75vh] md:h-screen">
+
+        {/* YouTube Video */}
         <iframe
           className="
             absolute top-1/2 left-1/2
+            w-[120vw] h-[120vh]
             min-w-full min-h-full
-            w-auto h-auto
             -translate-x-1/2 -translate-y-1/2
+            object-cover
             pointer-events-none
+            scale-110
           "
-          src={`https://www.youtube.com/embed/${trailerVideo.key}?autoplay=1&mute=1&controls=0&loop=1&playlist=${trailerVideo.key}&vq=hd720&modestbranding=1&showinfo=0`}
+          src={`https://www.youtube.com/embed/${trailerVideo.key}?autoplay=1&mute=1&controls=0&loop=1&playlist=${trailerVideo.key}&vq=hd1080&modestbranding=1&rel=0`}
           title="Movie Trailer"
           allow="autoplay; encrypted-media"
-        ></iframe>
+        />
 
-        {/* Left Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/60 to-transparent"></div>
+        {/* Cinematic Dark Overlay */}
+        <div className="absolute inset-0 bg-linear-to-r from-black via-black/70 to-transparent"></div>
 
-        {/* Bottom Fade Overlay */}
-        <div className="absolute bottom-0 w-full h-40 bg-gradient-to-t from-black to-transparent"></div>
+        {/* Top Fade */}
+        <div className="absolute top-0 w-full h-32 bg-linear-to-b from-black to-transparent"></div>
+
+        {/* Bottom Fade */}
+        <div className="absolute bottom-0 w-full h-48 bg-linear-to-t from-black to-transparent"></div>
 
       </div>
     </div>
