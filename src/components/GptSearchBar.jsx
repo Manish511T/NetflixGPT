@@ -4,7 +4,11 @@ import { BsStars } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import genAI from "../utils/openai";
 import { API_OPTIONS } from "../utils/constant";
-import { addGptMovieResult, setGptLoading } from "../utils/gptSlice";
+import {
+  addGptMovieResult,
+  setGptLoading,
+  setGptError,
+} from "../utils/gptSlice";
 import lang from "../utils/languageConstant";
 
 const GptSearchBar = () => {
@@ -41,19 +45,22 @@ const GptSearchBar = () => {
     dispatch(setGptLoading(true));
 
     const prompt = `
-You are an intelligent movie recommendation and identification system.
+You are a strict movie search engine.
 
-The user may search by mood, genre, language, country, movie name,
-series name, or describe scenes/dialogues/story if they forgot the name.
+Analyze the user's input carefully.
 
-Your job:
-- Understand the user's intent.
-- If describing a movie, identify it.
-- Otherwise recommend exactly 5 relevant movies.
-- Return ONLY movie names.
-- No numbering.
-- No explanations.
-- Separate by commas.
+Rules:
+
+- If the input exactly matches a real movie title, return ONLY that movie.
+- If the input is likely a movie title (short, proper noun, single name), return ONLY that movie.
+- If the input describes a movie (story, scene, dialogue), identify the best matching movie and return ONLY that one.
+- If the input is about mood, genre, language, country, or theme, recommend exactly 5 movies.
+
+Very Important:
+- Never recommend similar movies when an exact title is given.
+- Never explain.
+- Never add extra text.
+- Return plain movie names separated by commas.
 
 User input: "${userQuery}"
 `;
@@ -88,7 +95,22 @@ User input: "${userQuery}"
       );
     } catch (error) {
       console.error("Gemini Error:", error);
-      dispatch(setGptLoading(false));
+
+      if (
+        error?.message?.includes("quota") ||
+        error?.message?.includes("limit") ||
+        error?.message?.includes("429")
+      ) {
+        dispatch(
+          setGptError(
+            "🚫 Daily AI request limit reached. Please try again tomorrow.",
+          ),
+        );
+      } else {
+        dispatch(
+          setGptError("⚠️ Something went wrong while fetching AI results."),
+        );
+      }
     }
   };
 

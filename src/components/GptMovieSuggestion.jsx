@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import GptMovieCardShimmer from "../shimmer/GptMovieCardShimmer";
 
 const GptMovieSuggestion = () => {
-  const { movieResults, movieNames, isLoading } = useSelector(
+  const { movieResults, movieNames, isLoading, error } = useSelector(
     (store) => store.gpt,
   );
 
@@ -16,6 +16,20 @@ const GptMovieSuggestion = () => {
           .map((_, index) => (
             <GptMovieCardShimmer key={index} />
           ))}
+      </div>
+    );
+  }
+  if (error) {
+    return (
+      <div className="px-6 md:px-12 mt-10">
+        <div
+          className="bg-red-500/10 border border-red-500/20 
+                      text-red-400 px-6 py-5 rounded-2xl 
+                      backdrop-blur-xl shadow-lg"
+        >
+          <h3 className="text-lg font-semibold mb-2">AI Service Unavailable</h3>
+          <p className="text-sm">{error}</p>
+        </div>
       </div>
     );
   }
